@@ -3,7 +3,9 @@ package com.udacity.sandwichclub;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
@@ -14,6 +16,11 @@ public class DetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_POSITION = "extra_position";
     private static final int DEFAULT_POSITION = -1;
+
+    private TextView mAlsoKnownAs;
+    private TextView mPlaceOfOrigin;
+    private TextView mDescription;
+    private TextView mIngredients;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +50,7 @@ public class DetailActivity extends AppCompatActivity {
             return;
         }
 
-        populateUI();
+        populateUI(sandwich);
         Picasso.with(this)
                 .load(sandwich.getImage())
                 .into(ingredientsIv);
@@ -56,7 +63,20 @@ public class DetailActivity extends AppCompatActivity {
         Toast.makeText(this, R.string.detail_error_message, Toast.LENGTH_SHORT).show();
     }
 
-    private void populateUI() {
+    private void populateUI(Sandwich sandwich) {
+        mAlsoKnownAs = findViewById(R.id.also_known_tv);
+        // String join requires Api 26
+        // so https://stackoverflow.com/questions/33802971/alternative-for-string-join-in-android
+        //mAlsoKnownAs.setText(String.join(",",sandwich.getAlsoKnownAs()));
+        mAlsoKnownAs.setText(TextUtils.join(",", sandwich.getAlsoKnownAs()));
 
+        mPlaceOfOrigin = findViewById(R.id.origin_tv);
+        mPlaceOfOrigin.setText(sandwich.getPlaceOfOrigin());
+
+        mDescription = findViewById(R.id.description_tv);
+        mDescription.setText(sandwich.getDescription());
+
+        mIngredients = findViewById(R.id.ingredients_tv);
+        mIngredients.setText(TextUtils.join(",", sandwich.getIngredients()));
     }
 }
