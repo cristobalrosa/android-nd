@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Value;
 
 /**
@@ -16,7 +15,7 @@ import lombok.Value;
  */
 @Value
 @AllArgsConstructor
-public class Movie {
+public class MovieSummary {
     // Movie json object keys.
     private static final String POSTER_PATH_KEY = "poster_path";
     private static final String ADULT_KEY = "adult";
@@ -57,7 +56,7 @@ public class Movie {
      * @param object JSONObject
      * @return Movie.
      */
-    public static Movie fromJSON(JSONObject object) {
+    public static MovieSummary fromJSON(JSONObject object) {
         List<Integer> genres = new ArrayList<>();
         JSONArray genresArray = object.optJSONArray(GENRE_IDS_KEY);
         if (genresArray != null) {
@@ -66,7 +65,7 @@ public class Movie {
             }
         }
 
-        Movie movie = new Movie(
+        MovieSummary movieSummary = new MovieSummary(
                 object.optString(POSTER_PATH_KEY, ""),
                 object.optBoolean(ADULT_KEY, true),
                 object.optString(OVERVIEW_KEY, ""),
@@ -82,7 +81,7 @@ public class Movie {
                 object.optBoolean(VIDEO_KEY, false),
                 object.optDouble(VOTE_AVERAGE_KEY, 0.0)
         );
-        return movie;
+        return movieSummary;
     }
 }
 

@@ -1,7 +1,7 @@
 package org.crosa.android.popularmovies.services.impl;
 
 import org.crosa.android.popularmovies.client.IMoviesDatabaseClient;
-import org.crosa.android.popularmovies.model.Movie;
+import org.crosa.android.popularmovies.model.MovieSummary;
 import org.crosa.android.popularmovies.services.IMoviesService;
 
 import java.util.List;
@@ -14,7 +14,7 @@ public class MoviesServiceImpl implements IMoviesService {
     }
 
     @Override
-    public List<Movie> getMostPopularMovies() {
+    public List<MovieSummary> getMostPopularMovies() {
         return null;
     }
 }
