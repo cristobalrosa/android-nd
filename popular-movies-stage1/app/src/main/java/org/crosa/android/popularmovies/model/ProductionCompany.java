@@ -8,10 +8,11 @@ import lombok.Value;
 @Value
 @AllArgsConstructor
 public class ProductionCompany {
-    private final String name;
-    private final int id;
-    private final String logoPath;
-    private final String originCountry;
+    // Since I'm using lombok annotation @Value there is no need for private final.
+    String name;
+    int id;
+    String logoPath;
+    String originCountry;
 
     private static final String NAME_KEY = "name";
     private static final String ID_KEY = "id";

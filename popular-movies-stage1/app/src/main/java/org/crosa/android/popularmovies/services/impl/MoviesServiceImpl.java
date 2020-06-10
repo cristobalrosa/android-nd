@@ -25,6 +25,7 @@ public class MoviesServiceImpl implements IMoviesService {
         return client.getTopRated(1);
     }
 
+    @SuppressWarnings("unused")
     @Override
     public List<MovieSummary> getMovies(MovieSearchCriteria searchCriteria) {
         switch (searchCriteria) {

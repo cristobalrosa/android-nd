@@ -2,15 +2,12 @@ package org.crosa.android.popularmovies.model;
 
 import android.util.Log;
 
-import org.crosa.android.popularmovies.client.impl.TheMovieDBClientImpl;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import lombok.AllArgsConstructor;
 import lombok.Value;
@@ -50,34 +47,34 @@ public class MovieDetails implements Serializable {
     private static final String VOTE_AVERAGE_KEY = "vote_average";
     private static final String VOTE_COUNT_KEY = "vote_count";
 
-    // class attributes.
-    private final boolean adult;
-    private final String backdropPath;
-    private final String belongsToCollection; // TODO not sure what kind of data.
-    private final int budget;
-    private final List<Genre> genres;
-    private final String homepage;
-    private final int id;
-    private final int imdbId;
-    private final String originalLanguage;
-    private final String originalTitle;
-    private final String overview;
-    private final double popularity;
-    private final String posterPath;
-    private final List<ProductionCompany> productionCompanies;
-    private final List<ProductionCountry> productionCountries;
-    private final String releaseDate;
-    private final int revenue;
-    private final int runtime;
-    private final List<SpokenLanguage> spokenLanguages;
-    private final String status;
-    private final String tagline;
-    private final String title;
-    private final boolean video;
-    private final double voteAverage;
-    private final int voteCount;
+    // class attributes. Since I'm using lombok annotation @Value there is no need for private final.
+    boolean adult;
+    String backdropPath;
+    String belongsToCollection; // TODO not sure what kind of data.
+    int budget;
+    List<Genre> genres;
+    String homepage;
+    int id;
+    int imdbId;
+    String originalLanguage;
+    String originalTitle;
+    String overview;
+    double popularity;
+    String posterPath;
+    List<ProductionCompany> productionCompanies;
+    List<ProductionCountry> productionCountries;
+    String releaseDate;
+    int revenue;
+    int runtime;
+    List<SpokenLanguage> spokenLanguages;
+    String status;
+    String tagline;
+    String title;
+    boolean video;
+    double voteAverage;
+    int voteCount;
 
-    private final String IMAGE_API_PATH = "http://image.tmdb.org/t/p/%s/%s";
+    String IMAGE_API_PATH = "http://image.tmdb.org/t/p/%s/%s";
 
     /**
      * Builds the real url to retrieve the poster's path

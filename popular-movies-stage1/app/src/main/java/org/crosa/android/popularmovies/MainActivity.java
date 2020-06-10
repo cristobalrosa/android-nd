@@ -3,7 +3,6 @@ package org.crosa.android.popularmovies;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Movie;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -29,7 +28,6 @@ import org.crosa.android.popularmovies.utils.NetworkUtils;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements MoviesAdapter.MoviesAdapterOnClickHandler {
-    private IMoviesDatabaseClient mMoviesDatabaseClient;
     private IMoviesService mMoviesService;
 
     private RecyclerView mRecyclerView;
@@ -41,9 +39,9 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mMoviesDatabaseClient = new TheMovieDBClientImpl(getString(R.string.moviedb_secret));
+        IMoviesDatabaseClient mMoviesDatabaseClient = new TheMovieDBClientImpl(getString(R.string.moviedb_secret));
         mMoviesService = new MoviesServiceImpl(mMoviesDatabaseClient);
-        mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
+        mErrorMessageDisplay = findViewById(R.id.tv_error_message_display);
 
         mRecyclerView = findViewById(R.id.movies_rv);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
@@ -52,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
 
         mMoviesAdapter = new MoviesAdapter(this);
         mRecyclerView.setAdapter(mMoviesAdapter);
-        mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
+        mLoadingIndicator = findViewById(R.id.pb_loading_indicator);
         loadMovies(MovieSearchCriteria.MOST_POPULAR);
     }
 
@@ -74,8 +72,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
     @Override
     public void onClick(MovieSummary movieSummary) {
         Context context = this;
-        Class destinationClass = MovieDetailActivity.class;
-        Intent intentToStartDetailActivity = new Intent(context, destinationClass);
+        Intent intentToStartDetailActivity = new Intent(context,  MovieDetailActivity.class);
         intentToStartDetailActivity.putExtra("movieDetail", movieSummary);
         startActivity(intentToStartDetailActivity);
     }

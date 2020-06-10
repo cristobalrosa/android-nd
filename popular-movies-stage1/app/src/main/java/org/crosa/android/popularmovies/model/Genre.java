@@ -8,8 +8,9 @@ import lombok.Value;
 @Value
 @AllArgsConstructor
 public class Genre {
-    private final int id;
-    private final String name;
+    // Since I'm using lombok annotation @Value there is no need for private final.
+    int id;
+    String name;
 
     private static final String ID_KEY = "id";
     private static final String NAME_KEY = "name";

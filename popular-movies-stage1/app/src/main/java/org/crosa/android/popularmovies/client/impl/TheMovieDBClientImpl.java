@@ -32,7 +32,6 @@ public class TheMovieDBClientImpl implements IMoviesDatabaseClient {
     private static final String LANGUAGE_BY_PARAM = "language";
     private static final String PAGE_PARAM = "page";
     private static final String DEFAULT_LANGUAGE = "en-US";
-    private final String IMAGE_API_BASE_URL = "http://image.tmdb.org/t/p/";
     private final String apiKey;
 
     public TheMovieDBClientImpl(String apiKey) {

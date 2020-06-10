@@ -5,6 +5,7 @@ import org.crosa.android.popularmovies.model.MovieSummary;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 public interface IMoviesService {
     /**
      * Fetches a list of popular movies.

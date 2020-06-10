@@ -48,7 +48,7 @@ public class MovieSummary implements Serializable {
     int voteCount;
     boolean video;
     double voteAverage;
-    private final String IMAGE_API_PATH = "http://image.tmdb.org/t/p/%s/%s";
+    String IMAGE_API_PATH = "http://image.tmdb.org/t/p/%s/%s";
 
     /**
      * Builds the real url to retrieve the poster's path
@@ -77,12 +77,12 @@ public class MovieSummary implements Serializable {
             }
         }
 
-        MovieSummary movieSummary = new MovieSummary(
+        return new MovieSummary(
                 object.optString(POSTER_PATH_KEY, ""),
                 object.optBoolean(ADULT_KEY, true),
                 object.optString(OVERVIEW_KEY, ""),
                 object.optString(RELEASE_DATE_KEY, ""),
-                genres.toArray(new Integer[genres.size()]),
+                genres.toArray(new Integer[0]),
                 object.optInt(ID_KEY, 0),
                 object.optString(ORIGINAL_TITLE_KEY, ""),
                 object.optString(ORIGINAL_LANGUAGE_KEY, ""),
@@ -93,7 +93,6 @@ public class MovieSummary implements Serializable {
                 object.optBoolean(VIDEO_KEY, false),
                 object.optDouble(VOTE_AVERAGE_KEY, 0.0)
         );
-        return movieSummary;
     }
 }
 

@@ -1,5 +1,6 @@
 package org.crosa.android.popularmovies.model;
 
+@SuppressWarnings("ALL")
 public enum PosterSize {
     W_92("w92"),
     W_154("w154"),
