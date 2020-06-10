@@ -7,4 +7,10 @@
     <string name="default_release_date_text">Release Date</string>
     <string name="default_movie_title">Movie Title</string>
     <string name="default_poster_image">Movie Poster</string>
+    <string name="default_rating_text">Rating</string>
+
+    <string name="release_date_label">Release Date</string>
+    <string name="overview_label">Overview</string>
+
+    <string name="rating_label">Rating</string>
 </resources>

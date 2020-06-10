@@ -19,7 +19,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView mReleaseDate;
     private TextView mMovieOverview;
     private MovieSummary mMovieDetails;
-    private RatingBar mRatingBar;
+    private TextView mRating;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +30,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         mMoviePoster = findViewById(R.id.iv_detail_movie_poster);
         mReleaseDate = findViewById(R.id.tv_details_release_date);
         mMovieOverview = findViewById(R.id.tv_detail_overview);
-        mRatingBar = findViewById(R.id.rb_detail_vote_average);
+        mRating = findViewById(R.id.tv_movie_rating);
 
         Intent intentThatStartedThisActivity = getIntent();
 
@@ -40,8 +40,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                 mMovieTitle.setText(mMovieDetails.getTitle());
                 mReleaseDate.setText(mMovieDetails.getReleaseDate());
                 mMovieOverview.setText(mMovieDetails.getOverview());
-                //TODO change this.
-                mRatingBar.setRating((float) mMovieDetails.getVoteAverage());
+                mRating.setText(String.format("%.2f/10", mMovieDetails.getVoteAverage()));
                 Picasso.get().load(mMovieDetails.getRealPosterPath(PosterSize.W_185)).into(mMoviePoster);
             }
         }
