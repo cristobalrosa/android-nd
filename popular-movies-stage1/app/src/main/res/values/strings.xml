@@ -13,4 +13,6 @@
     <string name="overview_label">Overview</string>
 
     <string name="rating_label">Rating</string>
+    <string name="top_rated">Top Rated</string>
+    <string name="most_popular">Most Popular</string>
 </resources>
