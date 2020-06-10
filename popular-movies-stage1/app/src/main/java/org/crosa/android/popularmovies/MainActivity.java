@@ -2,6 +2,7 @@ package org.crosa.android.popularmovies;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -69,8 +70,10 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
     @Override
     public void onClick(MovieSummary movieSummary) {
         Context context = this;
-        Toast.makeText(context, movieSummary.getTitle(), Toast.LENGTH_SHORT)
-                .show();
+        Class destinationClass = MovieDetailActivity.class;
+        Intent intentToStartDetailActivity = new Intent(context, destinationClass);
+        intentToStartDetailActivity.putExtra("movieDetail", movieSummary);
+        startActivity(intentToStartDetailActivity);
     }
 
     public class MoviesTask extends AsyncTask<Void, Void, List<MovieSummary>> {

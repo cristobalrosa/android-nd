@@ -3,6 +3,7 @@ package org.crosa.android.popularmovies.model;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import lombok.Value;
  */
 @Value
 @AllArgsConstructor
-public class MovieSummary {
+public class MovieSummary implements Serializable {
     // Movie json object keys.
     private static final String POSTER_PATH_KEY = "poster_path";
     private static final String ADULT_KEY = "adult";

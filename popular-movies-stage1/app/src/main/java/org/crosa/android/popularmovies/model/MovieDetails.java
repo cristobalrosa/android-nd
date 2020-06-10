@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +21,7 @@ import lombok.Value;
  */
 @Value
 @AllArgsConstructor
-public class MovieDetails {
+public class MovieDetails implements Serializable {
     private static final String TAG = MovieDetails.class.getSimpleName();
     // Movie json object keys.
     private static final String ADULT_KEY = "adult";

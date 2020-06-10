@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">PopularMoviesStage1</string>
+    <string name="app_name">Udacity Popular Movies (st1)</string>
+    <string name="error_message">
+        An error has occurred. Please try again by clicking REFRESH
+    </string>
+    <string name="default_overview_text">Overview</string>
+    <string name="default_release_date_text">Release Date</string>
+    <string name="default_movie_title">Movie Title</string>
+    <string name="default_poster_image">Movie Poster</string>
 </resources>
