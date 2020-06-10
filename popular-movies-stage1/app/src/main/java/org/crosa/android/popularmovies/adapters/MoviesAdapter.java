@@ -5,9 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -63,8 +61,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesAdap
     @Override
     public void onBindViewHolder(MoviesAdapterViewHolder holder, int position) {
         MovieSummary summary = movieSummaryList.get(position);
-        holder.mMovieTitleTextView.setText(summary.getTitle());
-        Picasso.get().load(summary.getRealPosterPath(PosterSize.W_185)).into(holder.mMoviePosterImageView);
+        Picasso.get().load(summary.getRealPosterPath(PosterSize.W_500)).into(holder.mMoviePosterImageView);
     }
 
     @Override
@@ -82,13 +79,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesAdap
      */
     public class MoviesAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // movie_item.xml
-        private TextView mMovieTitleTextView;
         private ImageView mMoviePosterImageView;
 
         public MoviesAdapterViewHolder(View itemView) {
             super(itemView);
             mMoviePosterImageView = itemView.findViewById(R.id.movie_poster);
-            mMovieTitleTextView = itemView.findViewById(R.id.movie_title);
             itemView.setOnClickListener(this);
         }
 
