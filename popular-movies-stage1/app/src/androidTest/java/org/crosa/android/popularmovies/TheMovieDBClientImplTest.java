@@ -9,6 +9,7 @@ import org.crosa.android.popularmovies.client.IMoviesDatabaseClient;
 import org.crosa.android.popularmovies.client.impl.TheMovieDBClientImpl;
 import org.crosa.android.popularmovies.model.MovieDetails;
 import org.crosa.android.popularmovies.model.MovieSummary;
+import org.crosa.android.popularmovies.model.PosterSize;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.junit.Assert.*;
@@ -45,5 +46,6 @@ public class TheMovieDBClientImplTest {
         MovieDetails movieDetails = m.getMovieDetails(278);
         assertNotNull(movieDetails);
         assertEquals("The Shawshank Redemption", movieDetails.getOriginalTitle());
+        assertEquals("http://image.tmdb.org/t/p/w185//5KCVkau1HEl7ZzfPsKAPM0sMiKc.jpg", movieDetails.getRealPosterPath(PosterSize.W_185));
     }
 }

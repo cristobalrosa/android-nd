@@ -15,6 +15,6 @@ public class MoviesServiceImpl implements IMoviesService {
 
     @Override
     public List<MovieSummary> getMostPopularMovies() {
-        return null;
+        return client.getPopularMovies(1);
     }
 }

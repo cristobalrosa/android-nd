@@ -76,6 +76,17 @@ public class MovieDetails {
     private final double voteAverage;
     private final int voteCount;
 
+    private final String IMAGE_API_PATH = "http://image.tmdb.org/t/p/%s/%s";
+
+    /**
+     * Builds the real url to retrieve the poster's path
+     *
+     * @param posterSize Poster size
+     * @return String with the final url.
+     */
+    public String getRealPosterPath(PosterSize posterSize) {
+        return String.format(IMAGE_API_PATH, posterSize.getValue(), this.posterPath);
+    }
 
     /**
      * Parses JSONObject into a Movie object
