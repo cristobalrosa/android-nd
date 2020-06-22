@@ -1,27 +1,29 @@
-package org.crosa.android.popularmovies;
+package org.crosa.android.popularmovies.client.retrofit.impl;
 
 import android.content.res.Resources;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.crosa.android.popularmovies.R;
 import org.crosa.android.popularmovies.client.IMoviesDatabaseClient;
-import org.crosa.android.popularmovies.client.impl.TheMovieDBClientImpl;
 import org.crosa.android.popularmovies.model.MovieDetails;
 import org.crosa.android.popularmovies.model.MovieSummary;
 import org.crosa.android.popularmovies.model.PosterSize;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.junit.Assert.*;
 
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 @RunWith(AndroidJUnit4.class)
-public class TheMovieDBClientImplTest {
+public class TheMovieDBRetrofitSyncClientTest {
     @Test
     public void testSimpleE2EHappyPath(){
         Resources resources = InstrumentationRegistry.getInstrumentation().getTargetContext().getResources();
         String apiKey = resources.getString(R.string.moviedb_secret);
-        IMoviesDatabaseClient m = new TheMovieDBClientImpl(apiKey);
+        IMoviesDatabaseClient m = new TheMovieDBRetrofitSyncClient(apiKey);
         List<MovieSummary> movieSummaryList = m.getPopularMovies(1);
         // The default number of movies returned by the api is 20
         assertEquals(20, movieSummaryList.size());
@@ -31,7 +33,7 @@ public class TheMovieDBClientImplTest {
     public void testGetTopRatedE2EHappyPath(){
         Resources resources = InstrumentationRegistry.getInstrumentation().getTargetContext().getResources();
         String apiKey = resources.getString(R.string.moviedb_secret);
-        IMoviesDatabaseClient m = new TheMovieDBClientImpl(apiKey);
+        IMoviesDatabaseClient m = new TheMovieDBRetrofitSyncClient(apiKey);
         List<MovieSummary> movieSummaryList = m.getTopRated(1);
         // The default number of movies returned by the api is 20
         assertEquals(20, movieSummaryList.size());
@@ -41,7 +43,7 @@ public class TheMovieDBClientImplTest {
     public void testGetDetailsHappyPath(){
         Resources resources = InstrumentationRegistry.getInstrumentation().getTargetContext().getResources();
         String apiKey = resources.getString(R.string.moviedb_secret);
-        IMoviesDatabaseClient m = new TheMovieDBClientImpl(apiKey);
+        IMoviesDatabaseClient m = new TheMovieDBRetrofitSyncClient(apiKey);
         MovieDetails movieDetails = m.getMovieDetails(278);
         assertNotNull(movieDetails);
         assertEquals("The Shawshank Redemption", movieDetails.getOriginalTitle());

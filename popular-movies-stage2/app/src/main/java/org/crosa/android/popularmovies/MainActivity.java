@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,7 +19,7 @@ import android.widget.TextView;
 
 import org.crosa.android.popularmovies.adapters.MoviesAdapter;
 import org.crosa.android.popularmovies.client.IMoviesDatabaseClient;
-import org.crosa.android.popularmovies.client.impl.TheMovieDBClientImpl;
+import org.crosa.android.popularmovies.client.retrofit.impl.TheMovieDBRetrofitSyncClient;
 import org.crosa.android.popularmovies.model.MovieSearchCriteria;
 import org.crosa.android.popularmovies.model.MovieSummary;
 import org.crosa.android.popularmovies.services.IMoviesService;
@@ -39,12 +40,12 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        IMoviesDatabaseClient mMoviesDatabaseClient = new TheMovieDBClientImpl(getString(R.string.moviedb_secret));
+        IMoviesDatabaseClient mMoviesDatabaseClient = new TheMovieDBRetrofitSyncClient(getString(R.string.moviedb_secret));
         mMoviesService = new MoviesServiceImpl(mMoviesDatabaseClient);
         mErrorMessageDisplay = findViewById(R.id.tv_error_message_display);
 
         mRecyclerView = findViewById(R.id.movies_rv);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), getNumberOfColumns());
         mRecyclerView.setLayoutManager(gridLayoutManager);
         mRecyclerView.setHasFixedSize(true);
 
@@ -52,6 +53,22 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
         mRecyclerView.setAdapter(mMoviesAdapter);
         mLoadingIndicator = findViewById(R.id.pb_loading_indicator);
         loadMovies(MovieSearchCriteria.MOST_POPULAR);
+    }
+
+    /**
+     * Retrieve the number of columns to display.
+     *
+     * NOTE: Suggestion in stage 1 review.
+     * @return The number of columns to display
+     */
+    private int getNumberOfColumns(){
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int widthDivider = 400;
+        int width = displayMetrics.widthPixels;
+        int nColumns = width / widthDivider;
+        if (nColumns < 2) return 2; //to keep the grid aspect
+        return nColumns;
     }
 
     private void loadMovies(MovieSearchCriteria movieSearchCriteria) {

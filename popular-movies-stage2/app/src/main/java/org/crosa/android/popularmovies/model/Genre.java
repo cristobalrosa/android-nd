@@ -1,5 +1,8 @@
 package org.crosa.android.popularmovies.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import org.json.JSONObject;
 
 import lombok.AllArgsConstructor;
@@ -9,14 +12,10 @@ import lombok.Value;
 @AllArgsConstructor
 public class Genre {
     // Since I'm using lombok annotation @Value there is no need for private final.
-    int id;
+    @SerializedName("id")
+    @Expose
+    Integer id;
+    @SerializedName("name")
+    @Expose
     String name;
-
-    private static final String ID_KEY = "id";
-    private static final String NAME_KEY = "name";
-
-    public static Genre fromJSON(JSONObject object) {
-        return new Genre(object.optInt(ID_KEY, 0),
-                object.optString(NAME_KEY, ""));
-    }
 }
