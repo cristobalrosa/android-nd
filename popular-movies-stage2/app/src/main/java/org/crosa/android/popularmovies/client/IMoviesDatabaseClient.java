@@ -1,7 +1,9 @@
 package org.crosa.android.popularmovies.client;
 
 import org.crosa.android.popularmovies.model.MovieDetails;
+import org.crosa.android.popularmovies.model.MovieReview;
 import org.crosa.android.popularmovies.model.MovieSummary;
+import org.crosa.android.popularmovies.model.MovieVideo;
 
 import java.util.List;
 
@@ -24,8 +26,25 @@ public interface IMoviesDatabaseClient {
 
     /**
      * Fetch movie details
+     *
      * @param movieId Movie Id
      * @return Movie
      */
     MovieDetails getMovieDetails(int movieId);
+
+    /**
+     * Fetch a list of movie's reviews
+     *
+     * @param movieId Movie Id
+     * @return List of reviews
+     */
+    List<MovieReview> getMovieReviews(int movieId);
+
+    /**
+     * Fetch a list of movie's videos
+     *
+     * @param movieId Movie Id
+     * @return List of videos
+     */
+    List<MovieVideo> getMovieVideos(int movieId);
 }

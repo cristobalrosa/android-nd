@@ -5,8 +5,12 @@ import android.util.Log;
 import org.crosa.android.popularmovies.client.IMoviesDatabaseClient;
 import org.crosa.android.popularmovies.client.retrofit.IMovieDatabaseAPI;
 import org.crosa.android.popularmovies.model.MovieDetails;
+import org.crosa.android.popularmovies.model.MovieReview;
 import org.crosa.android.popularmovies.model.MovieSummary;
+import org.crosa.android.popularmovies.model.MovieVideo;
 import org.crosa.android.popularmovies.model.responses.DiscoveryResponse;
+import org.crosa.android.popularmovies.model.responses.MovieReviewsResponse;
+import org.crosa.android.popularmovies.model.responses.MovieVideosResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +68,38 @@ public class TheMovieDBRetrofitSyncClient implements IMoviesDatabaseClient {
             Log.e(TAG, "Unable to parse movie details", e);
         }
         return null;
+    }
+
+    @Override
+    public List<MovieReview> getMovieReviews(int movieId) {
+        Call<MovieReviewsResponse> call = service.getMovieReviews(movieId, this.apiKey);
+        try {
+            Response<MovieReviewsResponse> response = call.execute();
+            if (response.isSuccessful()) {
+                return response.body().getResults();
+            } else {
+                Log.e(TAG, response.errorBody().string());
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Unable to parse movie details", e);
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<MovieVideo> getMovieVideos(int movieId) {
+        Call<MovieVideosResponse> call = service.getMovieVideos(movieId, this.apiKey);
+        try {
+            Response<MovieVideosResponse> response = call.execute();
+            if (response.isSuccessful()) {
+                return response.body().getResults();
+            } else {
+                Log.e(TAG, response.errorBody().string());
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Unable to parse movie details", e);
+        }
+        return new ArrayList<>();
     }
 
     private List<MovieSummary> getMovies(int page, Call<DiscoveryResponse> call) {
