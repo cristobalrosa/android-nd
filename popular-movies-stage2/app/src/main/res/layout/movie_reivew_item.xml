@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="120sp"
+    android:minHeight="?android:attr/listPreferredItemHeight"
+    android:paddingLeft="@dimen/list_item_padding_horizontal"
+    android:paddingTop="@dimen/list_item_padding_vertical"
+    android:paddingRight="@dimen/list_item_padding_horizontal"
+    android:paddingBottom="@dimen/list_item_padding_vertical">
+
+    <TextView
+        android:id="@+id/movie_review_author_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/movie_review_author_label"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Author" />
+
+    <TextView
+        android:id="@+id/movie_review_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/movie_review_author_label"
+        app:layout_constraintStart_toEndOf="@+id/movie_review_author_label"
+        app:layout_constraintTop_toTopOf="@+id/movie_review_author_label"
+        tools:text="Movie Test Author" />
+
+    <TextView
+        android:id="@+id/movie_review_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="21dp"
+        android:text="@string/movie_review_label"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="@+id/movie_review_author_label"
+        app:layout_constraintTop_toBottomOf="@+id/movie_review_author_label" />
+
+    <TextView
+        android:id="@+id/movie_review"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Lorem ipsum lala bba ba"
+        app:layout_constraintStart_toStartOf="@+id/movie_review_author"
+        app:layout_constraintTop_toTopOf="@+id/movie_review_label" />
+
+</android.support.constraint.ConstraintLayout>

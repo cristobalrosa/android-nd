@@ -1,13 +1,16 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Title"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true">
+
+        <!-- https://stackoverflow.com/questions/5033012/auto-scale-textview-text-to-fit-within-bounds -->
 
         <ImageView
             android:id="@+id/iv_detail_movie_poster"
@@ -18,23 +21,22 @@
             android:layout_marginTop="16dp"
             android:contentDescription="@string/default_poster_image"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_detail_movie_title"
             tools:srcCompat="@tools:sample/avatars" />
-        <!-- https://stackoverflow.com/questions/5033012/auto-scale-textview-text-to-fit-within-bounds -->
+
         <TextView
             android:id="@+id/tv_detail_movie_title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
             android:layout_marginTop="16sp"
+            android:gravity="center"
             android:text="@string/default_movie_title"
             android:textStyle="bold"
             app:autoSizeMinTextSize="16sp"
             app:autoSizeTextType="uniform"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/iv_detail_movie_poster"
+            app:layout_constraintHorizontal_bias="0.012"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -43,25 +45,23 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:text="@string/release_date_label"
             android:textStyle="bold"
             android:typeface="normal"
             app:fontFamily="sans-serif"
             app:layout_constraintStart_toEndOf="@+id/iv_detail_movie_poster"
-            app:layout_constraintTop_toBottomOf="@+id/tv_detail_movie_title" />
+            app:layout_constraintTop_toTopOf="@+id/iv_detail_movie_poster" />
 
         <TextView
             android:id="@+id/tv_details_release_date"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:text="@string/default_release_date_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tv_release_date_label"
-            app:layout_constraintTop_toBottomOf="@+id/tv_detail_movie_title" />
+            app:layout_constraintTop_toTopOf="@+id/iv_detail_movie_poster" />
 
         <TextView
             android:id="@+id/tv_rating_label"
@@ -113,5 +113,55 @@
             app:fontFamily="sans-serif"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_detail_movie_poster" />
+
+        <TextView
+            android:id="@+id/tv_trailers_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/trailers_label"
+            android:textStyle="bold"
+            android:typeface="normal"
+            app:fontFamily="sans-serif"
+            app:layout_constraintStart_toStartOf="@+id/recyclerview_trailers"
+            app:layout_constraintTop_toBottomOf="@+id/tv_detail_overview" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview_trailers"
+            android:layout_width="match_parent"
+            android:layout_height="120sp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:clipToPadding="false"
+            android:paddingBottom="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_overview_label"
+            app:layout_constraintTop_toBottomOf="@+id/tv_detail_overview" />
+
+        <TextView
+            android:id="@+id/tv_reviews_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/reviews_label"
+            android:textStyle="bold"
+            android:typeface="normal"
+            app:fontFamily="sans-serif"
+            app:layout_constraintBottom_toTopOf="@+id/recyclerview_reviews"
+            app:layout_constraintStart_toStartOf="@+id/recyclerview_reviews"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerview_trailers" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview_reviews"
+            android:layout_width="match_parent"
+            android:layout_height="300sp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/recyclerview_trailers"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerview_trailers" />
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

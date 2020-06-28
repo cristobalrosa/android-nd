@@ -23,6 +23,7 @@ import org.crosa.android.popularmovies.client.retrofit.impl.TheMovieDBRetrofitSy
 import org.crosa.android.popularmovies.model.MovieSearchCriteria;
 import org.crosa.android.popularmovies.model.MovieSummary;
 import org.crosa.android.popularmovies.services.IMoviesService;
+import org.crosa.android.popularmovies.services.ServiceLocator;
 import org.crosa.android.popularmovies.services.impl.MoviesServiceImpl;
 import org.crosa.android.popularmovies.utils.NetworkUtils;
 
@@ -40,8 +41,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        IMoviesDatabaseClient mMoviesDatabaseClient = new TheMovieDBRetrofitSyncClient(getString(R.string.moviedb_secret));
-        mMoviesService = new MoviesServiceImpl(mMoviesDatabaseClient);
+        mMoviesService = ServiceLocator.getInstance(getApplicationContext()).getMoviesService();
         mErrorMessageDisplay = findViewById(R.id.tv_error_message_display);
 
         mRecyclerView = findViewById(R.id.movies_rv);
@@ -57,11 +57,12 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
 
     /**
      * Retrieve the number of columns to display.
-     *
+     * <p>
      * NOTE: Suggestion in stage 1 review.
+     *
      * @return The number of columns to display
      */
-    private int getNumberOfColumns(){
+    private int getNumberOfColumns() {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int widthDivider = 400;
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
     @Override
     public void onClick(MovieSummary movieSummary) {
         Context context = this;
-        Intent intentToStartDetailActivity = new Intent(context,  MovieDetailActivity.class);
+        Intent intentToStartDetailActivity = new Intent(context, MovieDetailActivity.class);
         intentToStartDetailActivity.putExtra("movieDetail", movieSummary);
         startActivity(intentToStartDetailActivity);
     }

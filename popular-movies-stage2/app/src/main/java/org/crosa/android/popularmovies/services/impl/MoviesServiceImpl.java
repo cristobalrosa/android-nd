@@ -1,8 +1,10 @@
 package org.crosa.android.popularmovies.services.impl;
 
 import org.crosa.android.popularmovies.client.IMoviesDatabaseClient;
+import org.crosa.android.popularmovies.model.MovieReview;
 import org.crosa.android.popularmovies.model.MovieSearchCriteria;
 import org.crosa.android.popularmovies.model.MovieSummary;
+import org.crosa.android.popularmovies.model.MovieVideo;
 import org.crosa.android.popularmovies.services.IMoviesService;
 
 import java.util.ArrayList;
@@ -36,5 +38,15 @@ public class MoviesServiceImpl implements IMoviesService {
             default:
                 return new ArrayList<>();
         }
+    }
+
+    @Override
+    public List<MovieVideo> getMovieVideos(int movieId) {
+        return client.getMovieVideos(movieId);
+    }
+
+    @Override
+    public List<MovieReview> getMovieReviews(int movieId) {
+        return client.getMovieReviews(movieId);
     }
 }
