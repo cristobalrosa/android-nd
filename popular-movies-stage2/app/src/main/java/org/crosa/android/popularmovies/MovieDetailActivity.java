@@ -1,26 +1,34 @@
 package org.crosa.android.popularmovies;
 
+import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import org.crosa.android.popularmovies.adapters.MoviesReviewAdapter;
 import org.crosa.android.popularmovies.adapters.MoviesVideoAdapter;
+import org.crosa.android.popularmovies.database.entities.MovieEntity;
+import org.crosa.android.popularmovies.model.MovieDetails;
 import org.crosa.android.popularmovies.model.MovieReview;
 import org.crosa.android.popularmovies.model.MovieSummary;
 import org.crosa.android.popularmovies.model.MovieVideo;
 import org.crosa.android.popularmovies.model.PosterSize;
 import org.crosa.android.popularmovies.services.IMoviesService;
 import org.crosa.android.popularmovies.services.ServiceLocator;
+import org.crosa.android.popularmovies.utils.AppExecutors;
 import org.crosa.android.popularmovies.utils.NetworkUtils;
 
 import java.util.List;
@@ -36,6 +44,8 @@ public class MovieDetailActivity extends AppCompatActivity implements MoviesVide
     private RecyclerView.LayoutManager videosLayoutManager;
     private RecyclerView.LayoutManager reviewsLayoutManager;
     private final static String YOUTUBE_BASE_URL = "http://www.youtube.com/watch?v=";
+    private Switch mFavorite;
+    private MovieSummary movieSummary;
 
 
     @Override
@@ -69,23 +79,53 @@ public class MovieDetailActivity extends AppCompatActivity implements MoviesVide
         mReviewsRV.setAdapter(moviesReviewAdapter);
         mReviewsRV.setHasFixedSize(true);
 
+        // Favorite switch
+        mFavorite = findViewById(R.id.set_favorite_sw);
+        mFavorite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (movieSummary != null) {
+                    if (isChecked) {
+                        mMoviesService.favoriteMovie(movieSummary.getId(), movieSummary.getOriginalTitle());
+                    } else {
+                        mMoviesService.unFavoriteMovie(movieSummary.getId());
+                    }
+                }
+            }
+        });
 
 
         Intent intentThatStartedThisActivity = getIntent();
 
         if (intentThatStartedThisActivity != null) {
             if (intentThatStartedThisActivity.hasExtra("movieDetail")) {
-                MovieSummary mMovieDetails = (MovieSummary) intentThatStartedThisActivity.getSerializableExtra("movieDetail");
-                mMovieTitle.setText(mMovieDetails.getTitle());
-                mReleaseDate.setText(mMovieDetails.getReleaseDate());
-                mMovieOverview.setText(mMovieDetails.getOverview());
-                mRating.setText(String.format(Locale.getDefault(), "%.2f/10", mMovieDetails.getVoteAverage()));
-                Picasso.get().load(mMovieDetails.getRealPosterPath(PosterSize.W_185)).into(mMoviePoster);
-                loadMovieVideos(mMovieDetails.getId());
-                loadMovieReviews(mMovieDetails.getId());
+                movieSummary = (MovieSummary) intentThatStartedThisActivity.getSerializableExtra("movieDetail");
+                mMovieTitle.setText(movieSummary.getTitle());
+                mReleaseDate.setText(movieSummary.getReleaseDate());
+                mMovieOverview.setText(movieSummary.getOverview());
+                mRating.setText(String.format(Locale.getDefault(), "%.2f/10", movieSummary.getVoteAverage()));
+                Picasso.get().load(movieSummary.getRealPosterPath(PosterSize.W_185)).into(mMoviePoster);
+                loadMovieVideos(movieSummary.getId());
+                loadMovieReviews(movieSummary.getId());
             }
         }
 
+        mMoviesService.getAllFavoriteMovies().observe(this, new Observer<List<MovieEntity>>() {
+            @Override
+            public void onChanged(@Nullable List<MovieEntity> movieEntities) {
+                if (movieSummary != null) {
+                    for (MovieEntity movieEntity : movieEntities) {
+                        if (movieEntity.getId() == movieSummary.getId()) {
+                            setFavoriteSwitchStatus(true);
+                        }
+                    }
+                }
+            }
+        });
+
+    }
+
+    private void setFavoriteSwitchStatus(boolean favorite) {
+        mFavorite.setChecked(favorite);
     }
 
     private void loadMovieReviews(int movieId) {

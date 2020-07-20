@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import org.crosa.android.popularmovies.R;
 import org.crosa.android.popularmovies.client.IMoviesDatabaseClient;
 import org.crosa.android.popularmovies.client.retrofit.impl.TheMovieDBRetrofitSyncClient;
+import org.crosa.android.popularmovies.database.MoviesLocalDB;
 import org.crosa.android.popularmovies.services.impl.MoviesServiceImpl;
 
 /**
@@ -31,7 +32,7 @@ public class ServiceLocator {
                 instance = new ServiceLocator(context);
                 // Create all the instances at the same time go make them singleton too.
                 databaseClient = new TheMovieDBRetrofitSyncClient(context.getResources().getString(R.string.moviedb_secret));
-                moviesService = new MoviesServiceImpl(databaseClient);
+                moviesService = new MoviesServiceImpl(databaseClient, MoviesLocalDB.getInstance(context));
             }
         }
         return instance;

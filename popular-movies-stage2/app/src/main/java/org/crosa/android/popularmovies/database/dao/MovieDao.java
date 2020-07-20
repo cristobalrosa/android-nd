@@ -17,12 +17,15 @@ public interface MovieDao {
     @Query("SELECT * FROM movies ORDER BY id")
     LiveData<List<MovieEntity>> loadAllFavouriteMovies();
 
-    @Insert
-    void insertMovie(MovieEntity movie);
+    @Update
+    void update(MovieEntity movie);
 
-    @Delete
-    void deleteMovie(MovieEntity movie);
+    @Insert
+    void insert(MovieEntity movie);
+
+    @Query("Delete from movies where id = :movieId")
+    void deleteMovieById(int movieId);
 
     @Query("SELECT * FROM movies WHERE id = :id")
-    LiveData<MovieEntity> loadTaskById(int id);
+    MovieEntity loadMovieById(int id);
 }
