@@ -10,7 +10,7 @@
     android:paddingLeft="@dimen/list_item_padding_horizontal"
     android:paddingRight="@dimen/list_item_padding_horizontal"
     android:paddingTop="@dimen/list_item_padding_vertical">
-
+    <!-- icons from : https://material.io/resources/icons/?search=play&icon=play_arrow&style=baseline -->
     <ImageView
         android:id="@+id/play_icon"
         android:layout_width="@dimen/list_icon"

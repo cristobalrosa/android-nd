@@ -163,5 +163,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/recyclerview_trailers"
             app:layout_constraintTop_toBottomOf="@+id/recyclerview_trailers" />
+
+        <Switch
+            android:id="@+id/set_favorite_sw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/favorite_switch_text"
+            app:layout_constraintStart_toStartOf="@+id/tv_rating_label"
+            app:layout_constraintTop_toBottomOf="@+id/tv_rating_label" />
     </android.support.constraint.ConstraintLayout>
 </ScrollView>
