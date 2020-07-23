@@ -2,6 +2,7 @@ package org.crosa.android.popularmovies;
 
 
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -20,14 +21,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.crosa.android.popularmovies.adapters.MoviesAdapter;
-import org.crosa.android.popularmovies.client.IMoviesDatabaseClient;
-import org.crosa.android.popularmovies.client.retrofit.impl.TheMovieDBRetrofitSyncClient;
 import org.crosa.android.popularmovies.database.entities.MovieEntity;
 import org.crosa.android.popularmovies.model.MovieSearchCriteria;
 import org.crosa.android.popularmovies.model.MovieSummary;
 import org.crosa.android.popularmovies.services.IMoviesService;
 import org.crosa.android.popularmovies.services.ServiceLocator;
-import org.crosa.android.popularmovies.services.impl.MoviesServiceImpl;
 import org.crosa.android.popularmovies.utils.MoviesSummaryToMoviesEntityMapper;
 import org.crosa.android.popularmovies.utils.NetworkUtils;
 
@@ -37,13 +35,14 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements MoviesAdapter.MoviesAdapterOnClickHandler {
     private IMoviesService mMoviesService;
     private static final String TAG = "MainActivity";
-
+    public static final String EXTRA_SEARCH_CRITERIA = "searchCriteria";
     private RecyclerView mRecyclerView;
     private TextView mErrorMessageDisplay;
     private ProgressBar mLoadingIndicator;
     private MoviesAdapter mMoviesAdapter;
 
     private List<MovieSummary> favoriteMovies;
+    private MovieSearchCriteria searchCriteria = MovieSearchCriteria.MOST_POPULAR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +59,16 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
         mMoviesAdapter = new MoviesAdapter(this);
         mRecyclerView.setAdapter(mMoviesAdapter);
         mLoadingIndicator = findViewById(R.id.pb_loading_indicator);
-        loadMovies(MovieSearchCriteria.MOST_POPULAR);
-        mMoviesService.getAllFavoriteMovies().observe(this, new Observer<List<MovieEntity>>() {
+
+        if (savedInstanceState != null && savedInstanceState.containsKey(EXTRA_SEARCH_CRITERIA)) {
+            searchCriteria = (MovieSearchCriteria) savedInstanceState.getSerializable(EXTRA_SEARCH_CRITERIA);
+        }
+        setupViewModel();
+    }
+
+    private void setupViewModel() {
+        MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        viewModel.getFavoriteMovies().observe(this, new Observer<List<MovieEntity>>() {
             @Override
             public void onChanged(@Nullable List<MovieEntity> movieEntities) {
                 Log.d(TAG, "List of movies changed.. Loading");
@@ -70,9 +77,9 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
                 for (MovieEntity movieEntity : movieEntities) {
                     favoriteMovies.add(MoviesSummaryToMoviesEntityMapper.from(movieEntity));
                 }
+                loadMovies();
             }
         });
-
     }
 
     /**
@@ -92,12 +99,12 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
         return nColumns;
     }
 
-    private void loadMovies(MovieSearchCriteria movieSearchCriteria) {
+    private void loadMovies() {
         showMovieDataView();
-        if (movieSearchCriteria == MovieSearchCriteria.FAVORITES) {
+        if (searchCriteria == MovieSearchCriteria.FAVORITES) {
             mMoviesAdapter.setMovieData(favoriteMovies);
         } else {
-            new MoviesTask(mMoviesService, movieSearchCriteria).execute();
+            new MoviesTask(mMoviesService, searchCriteria).execute();
         }
     }
 
@@ -168,17 +175,23 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
         int id = item.getItemId();
 
         if (id == R.id.action_most_popular) {
-            loadMovies(MovieSearchCriteria.MOST_POPULAR);
-            return true;
+            searchCriteria = MovieSearchCriteria.MOST_POPULAR;
         }
         if (id == R.id.action_top_rated) {
-            loadMovies(MovieSearchCriteria.TOP_RATED);
-            return true;
+            searchCriteria = MovieSearchCriteria.TOP_RATED;
         }
         if (id == R.id.action_favorites) {
-            loadMovies(MovieSearchCriteria.FAVORITES);
-            return true;
+            searchCriteria = MovieSearchCriteria.FAVORITES;
         }
-        return super.onOptionsItemSelected(item);
+        loadMovies();
+        return true;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        // Save the search criteria in a bundle so we can reuse it
+        // when the screen is rotated. 
+        outState.putSerializable(EXTRA_SEARCH_CRITERIA, searchCriteria);
+        super.onSaveInstanceState(outState);
     }
 }
