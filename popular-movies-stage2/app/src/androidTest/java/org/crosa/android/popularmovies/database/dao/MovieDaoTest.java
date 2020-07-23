@@ -17,10 +17,10 @@ public class MovieDaoTest extends AbstractDBTest {
     @Test
     public void testInsert() throws InterruptedException {
         // Arrange
-        MovieEntity entity = new MovieEntity(1, "original title 1");
+        MovieEntity entity = new MovieEntity(1, "original title 1", "original title", "2017-05-06", "overview", 2, "path");
 
         // Act
-        movieDao.insertMovie(entity);
+        movieDao.insert(entity);
         // Assert
         List<MovieEntity> movies = getOrAwaitValue(movieDao.loadAllFavouriteMovies());
         assertNotNull(movies);
@@ -36,7 +36,7 @@ public class MovieDaoTest extends AbstractDBTest {
         Map<Integer, MovieEntity> originalList = preloadDb(movieIds);
 
         // Act
-        movieDao.deleteMovie(originalList.get(1));
+        movieDao.deleteMovieById(originalList.get(1).getId());
 
         // Assert
         List<MovieEntity> movies = getOrAwaitValue(movieDao.loadAllFavouriteMovies());
@@ -50,9 +50,9 @@ public class MovieDaoTest extends AbstractDBTest {
 
         Map<Integer, MovieEntity> movies = new HashMap<>();
         for (Integer movieId : movieIds) {
-            MovieEntity entity = new MovieEntity(movieId, "original title " + movieId.toString());
+            MovieEntity entity = new MovieEntity(movieId, "original title 1", "original title", "2017-05-06", "overview", 2, "path");
             movies.put(movieId, entity);
-            movieDao.insertMovie(entity);
+            movieDao.insert(entity);
         }
 
         List<MovieEntity> moviesFromDB = getOrAwaitValue(movieDao.loadAllFavouriteMovies());
