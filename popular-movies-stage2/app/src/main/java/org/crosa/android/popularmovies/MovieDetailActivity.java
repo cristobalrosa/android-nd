@@ -161,6 +161,7 @@ public class MovieDetailActivity extends AppCompatActivity implements MoviesVide
         protected void onPostExecute(List<MovieVideo> videos) {
             if (videos != null) {
                 moviesVideoAdapter.setMovieVideos(videos);
+                moviesVideoAdapter.notifyDataSetChanged();
             }
         }
     }
@@ -193,6 +194,8 @@ public class MovieDetailActivity extends AppCompatActivity implements MoviesVide
         protected void onPostExecute(List<MovieReview> reviews) {
             if (reviews != null) {
                 moviesReviewAdapter.setReviews(reviews);
+                moviesReviewAdapter.notifyDataSetChanged();
+
             }
         }
     }
