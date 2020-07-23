@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         // Save the search criteria in a bundle so we can reuse it
-        // when the screen is rotated. 
+        // when the screen is rotated.
         outState.putSerializable(EXTRA_SEARCH_CRITERIA, searchCriteria);
         super.onSaveInstanceState(outState);
     }

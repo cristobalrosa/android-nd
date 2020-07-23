@@ -22,4 +22,7 @@
     <string name="movie_review_label">Review</string>
     <string name="favorite_switch_text">Favorite</string>
     <string name="favorites_list">Favorites</string>
+    <string name="trailer_demo_url_text">Trailer 1</string>
+    <string name="movie_demo_author">Movie Test Author</string>
+    <string name="movie_demo_review">Lorem ipsum lala bba ba</string>
 </resources>

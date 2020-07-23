@@ -33,7 +33,7 @@
         app:layout_constraintLeft_toRightOf="@+id/play_icon"
         app:layout_constraintStart_toEndOf="@+id/play_icon"
         app:layout_constraintTop_toTopOf="@+id/play_icon"
-        tools:text="Trailer 1"
+        tools:text="@string/trailer_demo_url_text"
         android:textColor="@color/colorPrimary"/>
 
     <android.support.constraint.Guideline

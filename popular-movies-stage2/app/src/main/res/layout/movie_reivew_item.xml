@@ -30,7 +30,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/movie_review_author_label"
         app:layout_constraintStart_toEndOf="@+id/movie_review_author_label"
         app:layout_constraintTop_toTopOf="@+id/movie_review_author_label"
-        tools:text="Movie Test Author" />
+        tools:text="@string/movie_demo_author" />
 
     <TextView
         android:id="@+id/movie_review_label"
@@ -47,7 +47,7 @@
         android:id="@+id/movie_review"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Lorem ipsum lala bba ba"
+        tools:text="@string/movie_demo_review"
         app:layout_constraintStart_toStartOf="@+id/movie_review_author"
         app:layout_constraintTop_toTopOf="@+id/movie_review_label" />
 
