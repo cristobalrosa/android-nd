@@ -1,8 +1,6 @@
 package org.crosa.android.popularmovies.services.impl;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
-import android.support.annotation.Nullable;
 
 import org.crosa.android.popularmovies.client.IMoviesDatabaseClient;
 import org.crosa.android.popularmovies.database.MoviesLocalDB;
@@ -13,19 +11,24 @@ import org.crosa.android.popularmovies.model.MovieSummary;
 import org.crosa.android.popularmovies.model.MovieVideo;
 import org.crosa.android.popularmovies.services.IMoviesService;
 import org.crosa.android.popularmovies.utils.AppExecutors;
+import org.crosa.android.popularmovies.utils.MoviesSummaryToMoviesEntityMapper;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MoviesServiceImpl implements IMoviesService {
+    private static final String TAG = "MoviesServiceImpl";
     private final IMoviesDatabaseClient client;
     private final MoviesLocalDB moviesLocalDB;
+
+    private List<MovieSummary> mFavoritesMovies = new ArrayList<>();
 
     public MoviesServiceImpl(IMoviesDatabaseClient client, MoviesLocalDB localDB) {
         this.client = client;
         this.moviesLocalDB = localDB;
     }
+
 
     @Override
     public List<MovieSummary> getMostPopularMovies() {
@@ -61,12 +64,12 @@ public class MoviesServiceImpl implements IMoviesService {
     }
 
     @Override
-    public void favoriteMovie(final int movieId, final String originalTitle) {
+    public void favoriteMovie(final MovieSummary movieSummary) {
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                MovieEntity movieEntity = new MovieEntity(movieId, originalTitle);
-                if (moviesLocalDB.movieDao().loadMovieById(movieId) != null) {
+                MovieEntity movieEntity = MoviesSummaryToMoviesEntityMapper.to(movieSummary);
+                if (moviesLocalDB.movieDao().loadMovieById(movieEntity.getId()) != null) {
                     moviesLocalDB.movieDao().update(movieEntity);
                 } else {
                     moviesLocalDB.movieDao().insert(movieEntity);

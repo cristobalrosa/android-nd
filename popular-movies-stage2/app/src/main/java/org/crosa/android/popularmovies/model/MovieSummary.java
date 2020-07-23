@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Value;
 
 /**
@@ -18,6 +19,7 @@ import lombok.Value;
  */
 @Value
 @AllArgsConstructor
+@Builder
 public class MovieSummary implements Serializable {
     // class attributes.
     @SerializedName("poster_path")

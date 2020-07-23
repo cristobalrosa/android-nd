@@ -14,21 +14,18 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import org.crosa.android.popularmovies.adapters.MoviesReviewAdapter;
 import org.crosa.android.popularmovies.adapters.MoviesVideoAdapter;
 import org.crosa.android.popularmovies.database.entities.MovieEntity;
-import org.crosa.android.popularmovies.model.MovieDetails;
 import org.crosa.android.popularmovies.model.MovieReview;
 import org.crosa.android.popularmovies.model.MovieSummary;
 import org.crosa.android.popularmovies.model.MovieVideo;
 import org.crosa.android.popularmovies.model.PosterSize;
 import org.crosa.android.popularmovies.services.IMoviesService;
 import org.crosa.android.popularmovies.services.ServiceLocator;
-import org.crosa.android.popularmovies.utils.AppExecutors;
 import org.crosa.android.popularmovies.utils.NetworkUtils;
 
 import java.util.List;
@@ -85,7 +82,7 @@ public class MovieDetailActivity extends AppCompatActivity implements MoviesVide
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (movieSummary != null) {
                     if (isChecked) {
-                        mMoviesService.favoriteMovie(movieSummary.getId(), movieSummary.getOriginalTitle());
+                        mMoviesService.favoriteMovie(movieSummary);
                     } else {
                         mMoviesService.unFavoriteMovie(movieSummary.getId());
                     }

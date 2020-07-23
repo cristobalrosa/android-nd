@@ -21,4 +21,5 @@
     <string name="movie_review_author_label">Author</string>
     <string name="movie_review_label">Review</string>
     <string name="favorite_switch_text">Favorite</string>
+    <string name="favorites_list">Favorites</string>
 </resources>

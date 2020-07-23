@@ -47,10 +47,9 @@ public interface IMoviesService {
 
     /**
      * Sets a given movie as favorite
-     * @param movieId Movie Id
-     * @param originalTitle Title
+     * @param movieSummary movie summary
      */
-    void favoriteMovie(int movieId, String originalTitle);
+    void favoriteMovie(MovieSummary movieSummary);
     /**
      * Removes the given movie from the favorites database.
      * @param movieId Movie Id

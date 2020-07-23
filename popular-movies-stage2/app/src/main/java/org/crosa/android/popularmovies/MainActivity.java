@@ -1,10 +1,12 @@
 package org.crosa.android.popularmovies;
 
 
+import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,22 +22,28 @@ import android.widget.TextView;
 import org.crosa.android.popularmovies.adapters.MoviesAdapter;
 import org.crosa.android.popularmovies.client.IMoviesDatabaseClient;
 import org.crosa.android.popularmovies.client.retrofit.impl.TheMovieDBRetrofitSyncClient;
+import org.crosa.android.popularmovies.database.entities.MovieEntity;
 import org.crosa.android.popularmovies.model.MovieSearchCriteria;
 import org.crosa.android.popularmovies.model.MovieSummary;
 import org.crosa.android.popularmovies.services.IMoviesService;
 import org.crosa.android.popularmovies.services.ServiceLocator;
 import org.crosa.android.popularmovies.services.impl.MoviesServiceImpl;
+import org.crosa.android.popularmovies.utils.MoviesSummaryToMoviesEntityMapper;
 import org.crosa.android.popularmovies.utils.NetworkUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements MoviesAdapter.MoviesAdapterOnClickHandler {
     private IMoviesService mMoviesService;
+    private static final String TAG = "MainActivity";
 
     private RecyclerView mRecyclerView;
     private TextView mErrorMessageDisplay;
     private ProgressBar mLoadingIndicator;
     private MoviesAdapter mMoviesAdapter;
+
+    private List<MovieSummary> favoriteMovies;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +61,18 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
         mRecyclerView.setAdapter(mMoviesAdapter);
         mLoadingIndicator = findViewById(R.id.pb_loading_indicator);
         loadMovies(MovieSearchCriteria.MOST_POPULAR);
+        mMoviesService.getAllFavoriteMovies().observe(this, new Observer<List<MovieEntity>>() {
+            @Override
+            public void onChanged(@Nullable List<MovieEntity> movieEntities) {
+                Log.d(TAG, "List of movies changed.. Loading");
+                // This is not very efficient but it will do it.
+                favoriteMovies = new ArrayList<>();
+                for (MovieEntity movieEntity : movieEntities) {
+                    favoriteMovies.add(MoviesSummaryToMoviesEntityMapper.from(movieEntity));
+                }
+            }
+        });
+
     }
 
     /**
@@ -74,7 +94,11 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
 
     private void loadMovies(MovieSearchCriteria movieSearchCriteria) {
         showMovieDataView();
-        new MoviesTask(mMoviesService, movieSearchCriteria).execute();
+        if (movieSearchCriteria == MovieSearchCriteria.FAVORITES) {
+            mMoviesAdapter.setMovieData(favoriteMovies);
+        } else {
+            new MoviesTask(mMoviesService, movieSearchCriteria).execute();
+        }
     }
 
     private void showMovieDataView() {
@@ -149,6 +173,10 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
         }
         if (id == R.id.action_top_rated) {
             loadMovies(MovieSearchCriteria.TOP_RATED);
+            return true;
+        }
+        if (id == R.id.action_favorites) {
+            loadMovies(MovieSearchCriteria.FAVORITES);
             return true;
         }
         return super.onOptionsItemSelected(item);
